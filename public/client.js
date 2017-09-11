@@ -197,14 +197,15 @@ window.TrelloPowerUp.initialize({
 
 var multiDownloadBoardButtonCallback = function(t){
   
-  /*
-  //Get information about the current board
-  //t.board('id', 'name', 'url', 'shortLink', 'members')
-  return t.board('all')
-    .then(function (board) {
-      console.log(JSON.stringify(board, null, 2));
-  }); */
+  /* Clicking this button, the following should happen:
+     
+     1. It should be checked if a card with the name "LIST NAME" + MULTIPLE DOWNLOAD already exists
+     2. If this exists, it should list the total amount of files attached to any of the cards in that list has
+     3. If this card does not exist, it should be created and then step 2 should be fullfilled.
+     
   
+  */
+
   
    return t.lists('all')
            .then(function (lists) {
@@ -213,26 +214,74 @@ var multiDownloadBoardButtonCallback = function(t){
               console.log(JSON.stringify(lists[0].name, null, 2));
      
      */         
-              // check if card with listname + "multi-download" already exists
-             
-              
+      // check if card with listname + "multi-download" already exists
+
+     // console.log(JSON.stringify(lists, null, 2));
+     var hasMultiDownloadCard = false;
+     var NewCardName = '';
+
+     console.log('Number of lists: ' + lists.length); 
+
      
-              // console.log(JSON.stringify(lists, null, 2));
      
-              // if does not existi, create card with listname + "multi-download" and set its position as 1
-              // console.log('step 2');
-              
-                 
-              var newCard = {
-                name: lists[0].name + ' Multi Download',
-                desc: '',
-                position: 'top',
-                idList: lists[0].id,
-              };
+
+     for ( var i = 0; i < lists.length; i++ ){
+        
+       // Name given to the new card created
+       NewCardName = lists[i].name + ' Multi Download';
+       
+       // console.log('List "' + lists[i].name + '" has ' + lists[i].cards.length + ' cards.');
+
+        if ( lists[i].cards.length > 0  ){
+        
+          console.log('List: "' + lists[i].name + '" has ' + lists[i].cards.length + ' cards.');
+          
+          for (var x = 0; x < lists[i].cards.length; x++ ){
+            
+            if ( lists[i].cards[x].name == NewCardName ){
+            
+              // card already exists, do not create
+              hasMultiDownloadCard = true;
+              // exit the for loop if found
+              break;
+                
+            }
+            
+          }
+          
+          if( hasMultiDownloadCard ){
+            
+             console.log('This list already has a card named "' + NewCardName + '"');
+            
+          } else {
+          
+          // card does not exist in current list create it and set its position to top
      
-             
-              console.log(JSON.stringify(newCard, null, 2));
-               
+          var newCard = {
+            name: NewCardName,
+            desc: '',
+            position: 'top',
+            idList: lists[0].id,
+          };
+          
+          // below creates an infinite loop !?
+          // t.set('board', 'shared', newCard);  
+          
+          console.log(JSON.stringify(newCard, null, 2));
+          
+          }
+            
+        } 
+
+     }
+
+
+
+
+
+
+      // console.log(JSON.stringify(newCard, null, 2));
+
     });
   
    /* 
@@ -243,6 +292,16 @@ var multiDownloadBoardButtonCallback = function(t){
     });
    
    */
+  
+    
+  /*
+  //Get information about the current board
+  //t.board('id', 'name', 'url', 'shortLink', 'members')
+  return t.board('all')
+    .then(function (board) {
+      console.log(JSON.stringify(board, null, 2));
+  }); */
+  
   
 };
 
@@ -266,14 +325,15 @@ var cardBadgesAttachmentsText = function(t){
   
   return t.card('attachments')
           .then(function(attachments){
-                
+                  
+                  var cardAttachments = t.attachments;
+  
+                  return cardAttachments + ' attachments.';
+  
+                  console.log(JSON.stringify(cardAttachments, null, 2));
           });
   
-  var cardAttachments = t.attachments;
-  
-  return cardAttachments + ' attachments.';
-  
-  console.log(JSON.stringify(cardAttachments, null, 2));
+
   
 };
 
