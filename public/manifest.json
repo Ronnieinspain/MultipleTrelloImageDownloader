@@ -1,0 +1,28 @@
+{
+  "name": "AIM Multi Image & Video Download",
+  "description": "",
+  "details":"This PowerUp allows you to download all images and or video content from a Trello List or from all Cards on a List at once.\n\n This PowerUp is currently under development.",
+  "icon": {
+    "url": "https://cdn.glitch.com/36bbf899-fba2-4426-a1c5-2a898e7008d9%2Fdownload_icon.png?1504165646959"
+  },
+  "author": "Ronald de Ruiter",
+  "capabilities": [
+    "callback",
+    "card-buttons",
+    "card-detail-badges",
+    "show-settings",
+    "attachment-sections",
+    "attachment-thumbnail",
+    "board-buttons",
+    "card-badges",
+    "card-from-url",
+    "format-url",
+    "show-authorization",
+    "authorization-status"
+  ],
+  "connectors": {
+    "iframe": {
+      "url": "./index.html"
+    }
+  }
+}
